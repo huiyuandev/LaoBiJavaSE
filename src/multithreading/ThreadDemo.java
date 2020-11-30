@@ -31,8 +31,9 @@ public class ThreadDemo {
 
     public static void main(String[] args) {
 
-        Demo d = new Demo();
-        d.start();
+        Demo d = new Demo(); // 创建线程
+        d.start(); // 开启线程并执行线程的run方法
+        d.run(); // 仅仅是对象调用方法，线程创建了，并没有运行
 
         for (int i = 0; i < 60; i++)
             System.out.println("Hello World--" + i);
