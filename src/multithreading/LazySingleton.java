@@ -12,7 +12,7 @@ public class LazySingleton {
     private LazySingleton() {
     }
 
-    private static LazySingleton lazySingleton = null;
+    private static volatile LazySingleton lazySingleton = null;
 
     public static LazySingleton getInstance() {
         // 双重判断防止多线程访问时出现安隐患
