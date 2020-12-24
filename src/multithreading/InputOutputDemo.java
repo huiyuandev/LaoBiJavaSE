@@ -34,9 +34,7 @@ class Input implements Runnable {
 
 class Output implements Runnable {
 
-    private Res res;
-
-// 测试提交
+    private Res res;///////
 
     public Output(Res res) {
         this.res = res;
