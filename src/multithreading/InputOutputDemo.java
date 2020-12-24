@@ -36,6 +36,8 @@ class Output implements Runnable {
 
     private Res res;
 
+
+
     public Output(Res res) {
         this.res = res;
     }
