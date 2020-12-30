@@ -12,25 +12,12 @@ class Input implements Runnable {
     public void run() {
         int x = 0;
         while (true) {
-            synchronized (res) {
-                if (res.flag) {
-                    try {
-                        res.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (x == 0) {
-                        res.name = "tom";
-                        res.sex = "male";
-                    } else {
-                        res.name = "lili";
-                        res.sex = "female";
-                    }
-                }
+            if (x == 0) {
+                res.set("tom", "male");
+            } else {
+                res.set("lili", "female");
             }
             x = (x + 1) % 2;
-            res.flag = true;
-            res.notify();
         }
     }
 
@@ -47,18 +34,7 @@ class Output implements Runnable {
     @Override
     public void run() {
         while (true) {
-            synchronized (res) {
-                if (!res.flag) {
-                    try {
-                        res.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                System.out.println(res.name + "......" + res.sex);
-                res.flag = false;
-                res.notify();
-            }
+            res.out();
         }
     }
 
