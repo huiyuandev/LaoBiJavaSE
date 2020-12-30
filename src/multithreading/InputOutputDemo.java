@@ -1,10 +1,5 @@
 package multithreading;
 
-class Res {
-    String name;
-    String sex;
-}
-
 class Input implements Runnable {
 
     private Res res;
@@ -18,15 +13,24 @@ class Input implements Runnable {
         int x = 0;
         while (true) {
             synchronized (res) {
-                if (x == 0) {
-                    res.name = "tom";
-                    res.sex = "male";
-                } else {
-                    res.name = "lili";
-                    res.sex = "female";
+                if (res.flag) {
+                    try {
+                        res.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (x == 0) {
+                        res.name = "tom";
+                        res.sex = "male";
+                    } else {
+                        res.name = "lili";
+                        res.sex = "female";
+                    }
                 }
             }
             x = (x + 1) % 2;
+            res.flag = true;
+            res.notify();
         }
     }
 
@@ -44,7 +48,16 @@ class Output implements Runnable {
     public void run() {
         while (true) {
             synchronized (res) {
+                if (!res.flag) {
+                    try {
+                        res.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 System.out.println(res.name + "......" + res.sex);
+                res.flag = false;
+                res.notify();
             }
         }
     }
